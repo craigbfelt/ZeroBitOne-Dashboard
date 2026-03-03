@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import type { Ticket } from "@/lib/types";
+import AIAssistant from "@/components/AIAssistant";
 
 export default async function TicketsPage() {
   const supabase = createClient();
@@ -106,6 +107,14 @@ export default async function TicketsPage() {
           </tbody>
         </table>
       </div>
+
+      <AIAssistant
+        context={
+          tickets && tickets.length > 0
+            ? `There are ${tickets.length} ticket(s). Statuses: ${[...new Set(tickets.map((t: any) => t.status))].join(', ')}. Priorities: ${[...new Set(tickets.map((t: any) => t.priority))].join(', ')}.`
+            : 'No tickets currently exist.'
+        }
+      />
     </div>
   );
 }
