@@ -51,7 +51,8 @@ export async function POST(request: NextRequest) {
     const reply = data.choices?.[0]?.message?.content ?? '';
 
     return NextResponse.json({ reply });
-  } catch {
+  } catch (error) {
+    console.error("Error processing AI request:", error);
     return NextResponse.json(
       { error: 'Failed to process AI request' },
       { status: 500 }
