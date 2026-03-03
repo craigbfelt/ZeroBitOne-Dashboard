@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import Link from "next/link";
 import type { Ticket } from "@/lib/types";
 
 export default async function TicketsPage() {
@@ -22,9 +23,12 @@ export default async function TicketsPage() {
             Manage and track tickets across your projects
           </p>
         </div>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <Link
+          href="/tickets/new"
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
           New Ticket
-        </button>
+        </Link>
       </div>
 
       {error && (
@@ -59,16 +63,18 @@ export default async function TicketsPage() {
           <tbody className="bg-white divide-y divide-gray-200">
             {tickets && tickets.length > 0 ? (
               tickets.map((ticket: any) => (
-                <tr key={ticket.id} className="hover:bg-gray-50">
+                <tr key={ticket.id} className="hover:bg-gray-50 cursor-pointer">
                   <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm font-medium text-gray-900">
-                      {ticket.title}
-                    </div>
-                    {ticket.description && (
-                      <div className="text-sm text-gray-500">
-                        {ticket.description.substring(0, 50)}...
+                    <Link href={`/tickets/${ticket.id}`} className="block">
+                      <div className="text-sm font-medium text-gray-900">
+                        {ticket.title}
                       </div>
-                    )}
+                      {ticket.description && (
+                        <div className="text-sm text-gray-500">
+                          {ticket.description.substring(0, 50)}...
+                        </div>
+                      )}
+                    </Link>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
